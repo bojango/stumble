@@ -1,0 +1,66 @@
+name: Refresh catalogue and deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'stumble.user.js'
+      - 'assets/**'
+      - 'scripts/**'
+      - 'config/**'
+      - '.github/workflows/deploy.yml'
+  schedule:
+    # Curlie publishes roughly monthly. Weekly checks pick up a new snapshot soon after it appears.
+    - cron: '23 4 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test catalogue builder
+        run: python -m unittest discover -s tests -v
+      - name: Syntax-check userscript
+        run: node --check stumble.user.js
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build site and full Curlie catalogue
+        run: ./scripts/build_site.sh
+      - name: Show catalogue statistics
+        run: cat _site/data/build-stats.json
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
