@@ -1,0 +1,35 @@
+{
+  "shard_size": 4000,
+  "blocked_category_prefixes": [
+    "Adult",
+    "Shopping/Adult",
+    "Society/Sexuality/Pornography",
+    "Society/Issues/Abortion/Pro-Life/Violence",
+    "Games/Gambling",
+    "Shopping/Recreational_Drugs"
+  ],
+  "blocked_url_tokens": [
+    "/login", "/signin", "/sign-in", "/log-in", "/logout", "/register", "/signup", "/sign-up",
+    "/account", "/auth", "/oauth", "/password", "/checkout", "/cart", "/basket", "/session"
+  ],
+  "blocked_extensions": [
+    ".7z", ".avi", ".bin", ".dmg", ".doc", ".docx", ".exe", ".gif", ".gz", ".iso", ".jpeg", ".jpg",
+    ".m4a", ".mkv", ".mov", ".mp3", ".mp4", ".msi", ".pdf", ".png", ".ppt", ".pptx", ".rar", ".tar",
+    ".tgz", ".tif", ".tiff", ".wav", ".webm", ".webp", ".xls", ".xlsx", ".zip"
+  ],
+  "topic_prefixes": {
+    "space": ["Science/Astronomy", "Science/Technology/Aerospace"],
+    "science": ["Science"],
+    "technology": ["Computers", "Science/Technology"],
+    "history": ["Society/History", "Reference/Museums/History"],
+    "photography": ["Arts/Photography"],
+    "nature": ["Science/Biology", "Science/Environment", "Recreation/Outdoors"],
+    "design": ["Arts/Design"],
+    "culture": ["Arts", "Society/Culture"],
+    "games": ["Games"],
+    "reference": ["Reference"]
+  },
+  "informational_roots": [
+    "Arts", "Computers", "Games", "Health", "Home", "News", "Recreation", "Reference", "Science", "Society"
+  ]
+}
